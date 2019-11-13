@@ -1,0 +1,15 @@
+server:
+  port: 8001
+spring:
+  profiles:
+    active:
+      - dev
+      - druid
+
+logging:
+  config: classpath:log4j2.xml
+
+mybatis-plus:
+  mapper-locations:
+    - cn/tfp/dao/sql/*.xml
+  type-aliases-package: cn.tfp.model.entity

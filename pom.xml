@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--  将springboot作为父工程  -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.8.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>cn.tfp</groupId>
+    <artifactId>test</artifactId>
+    <version>1.0.0</version>
+    <name>test</name>
+
+    <!--父工程的packaging方式必须是pom-->
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>common</module>
+        <module>model</module>
+        <module>dao</module>
+        <module>service</module>
+        <module>api</module>
+    </modules>
+
+    <!--自定义环境变量-->
+    <properties>
+        <main-version>1.0.0</main-version>
+        <java.version>1.8</java.version>
+        <!-- 设置maven版本，否则pom文件报错，原因就是maven版本和springboot版本不一致 -->
+        <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+        <!-- 打包时跳过test测试 -->
+        <skipTests>true</skipTests>
+        <mybatis-plus-version>3.1.0</mybatis-plus-version>
+        <druid-version>1.1.16</druid-version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <!--dependencyManagement这里是作版本控制，相当于只是对依赖的定义，并不是真的依赖这些模块，而是在子模块依赖相对应的依赖时，能够不用写版本号-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>cn.tfp.test</groupId>
+                <artifactId>api</artifactId>
+                <version>${main-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tfp.test</groupId>
+                <artifactId>service</artifactId>
+                <version>${main-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tfp.test</groupId>
+                <artifactId>model</artifactId>
+                <version>${main-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tfp.test</groupId>
+                <artifactId>dao</artifactId>
+                <version>${main-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.tfp.test</groupId>
+                <artifactId>common</artifactId>
+                <version>${main-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!--依赖，子模块会继承这些依赖-->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions><!-- 去掉springboot默认配置 -->
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency> <!-- 引入log4j2依赖 -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+</project>
